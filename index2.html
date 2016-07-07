@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <title>ENERGIA DEL PACIFICO</title>
+    <link rel="stylesheet" href="css/styles.css?v=3">
+    <link rel="stylesheet" type="text/css" href="css/stylesheet.css">
+    <link rel="stylesheet" type="text/css" href="css/tooltipster.css">
+    <link rel="stylesheet" type="text/css" href="css/jquery.bxslider.css">
+    <script type="text/javascript" src="js/html5shiv.min.js"></script>
+    <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="js/jquery.random-fade-in.js"></script>
+    <script type="text/javascript" src="js/jquery.tooltipster.min.js"></script>
+    <script type="text/javascript" src="js/jquery.bxslider.min.js"></script>
+    <!--[if gte IE 9]>
+    <style type="text/css">
+        .gradient {
+            filter: none;
+        }
+    </style>
+    <![endif]-->
+    <!--[if lte IE 8]>
+    <style type="text/css">
+        #intro-container {
+            width: 983px;
+        }
+    </style>
+    <![endif]-->
+</head>
+<body class=" hasGoogleVoiceExt">
+<script>
+    $(document).ready(function () {
+        function startIntro(){
+            $("#intro-col1").fadeIn(400);
+            $("#intro-col3").delay(500).fadeIn(400);
+            $("#intro-col2").delay(1000).fadeIn(400);
+
+           
+            $("#intro-title-container-container").delay(1500).fadeIn(400);
+            //$("#intro-image").delay(6000).fadeOut(3000);
+            $("#intro-wrap").delay(4100).fadeOut(2500);
+
+            setTimeout(function(){
+                startRotation();
+            },2800);
+
+            /** fade in articles **/
+            $(".grid-row1 .grid-col1 .card-wrapper").delay(3600).queue(function(){
+                $(this).addClass("ready").dequeue();
+            });
+            $(".grid-row1 .grid-col3 .card-wrapper").delay(3900).queue(function(){
+                $(this).addClass("ready").dequeue();
+            });
+            $(".grid-row3 .grid-col2 .card-wrapper").delay(4100).queue(function(){
+                $(this).addClass("ready").dequeue();
+            });
+            $(".grid-row3 .grid-col4 .card-wrapper").delay(4300).queue(function(){
+                $(this).addClass("ready").dequeue();
+            });
+
+            /** fade in images **/
+            $(".grid-row1 .grid-col2 .img-container").delay(4500).queue(function(){
+                $(this).addClass("ready").dequeue();
+            });
+
+            $(".grid-row1 .grid-col4 .img-container").delay(4800).queue(function(){
+                $(this).addClass("ready").dequeue();
+            });
+
+            $(".grid-row2 .grid-col1 .img-container").delay(4900).queue(function(){
+                $(this).addClass("ready").dequeue();
+            });
+
+            $(".grid-row2 .grid-col3 .img-container").delay(5100).queue(function(){
+                $(this).addClass("ready").dequeue();
+            });
+
+            $(".grid-row3 .grid-col1 .img-container").delay(5200).queue(function(){
+                $(this).addClass("ready").dequeue();
+            });
+
+            $(".grid-row3 .grid-col3 .img-container").delay(5300).queue(function(){
+                $(this).addClass("ready").dequeue();
+            });
+
+            $("#tap").delay(5800).fadeIn(500);
+        }
+
+        function skipIntro(){
+            $("#intro-col1").hide();
+            $("#intro-col3").hide();
+            $("#intro-col2").hide();
+
+            $("#intro-title-container-container").hide();
+            $("#intro").hide();
+
+            $(".grid-row1 .grid-col1 .card-wrapper").addClass('ready');
+            $(".grid-row1 .grid-col3 .card-wrapper").addClass('ready');
+            $(".grid-row3 .grid-col2 .card-wrapper").addClass('ready');
+            $(".grid-row3 .grid-col4 .card-wrapper").addClass('ready');
+
+            $(".grid-row1 .grid-col2 .img-container").addClass('ready');
+            $(".grid-row1 .grid-col4 .img-container").addClass('ready');
+
+            $(".grid-row2 .grid-col1 .img-container").addClass('ready');
+            $(".grid-row2 .grid-col3 .img-container").addClass('ready');
+
+            $(".grid-row3 .grid-col1 .img-container").addClass('ready');
+            $(".grid-row3 .grid-col3 .img-container").addClass('ready');
+
+            $("#tap").show();
+
+            startRotation();
+        }
+
+        function bindClickEvents(){
+            $('.card-wrapper').on('click', function (e) {
+                var $target = $(e.currentTarget);
+                var wasClosed = $target.find('.title-card').hasClass('closed');
+
+                closeAllBoxes();
+
+                // toggle this one
+                if(wasClosed){
+                    $target.find('.toggle-plus').addClass('plus-close');
+                    $target.find('.title-card').removeClass('closed');
+                }
+            });
+
+            $(".grid-row2 .grid-col2").on("click", function (e) {
+                var wasClosed = !$(e.currentTarget).find('#r2c2-article').is(':visible');
+
+                closeAllBoxes();
+
+                if(wasClosed){
+                    $('#r2c2-article').stop().show();
+                    $('#r2c2-plus').addClass('plus-close');
+                }
+            });
+
+            $('#intro-skip').on("click", "a,img", function (e) {
+                e.preventDefault();
+                skipIntro();
+            });
+        }
+
+        function closeAllBoxes(){
+            // reset all
+            $('#r2c2-article').stop().hide();
+            $('.toggle-plus').removeClass('plus-close');
+            $('.title-card').addClass('closed');
+        }
+
+        var autoClose = true; // only open one tool tip at a time
+
+        // reset info-plus button
+        function handleTooltipClose(origin){
+            if(origin && origin[0]){
+                origin.removeClass('info-close');
+            }
+        }
+
+        function handleTooltipOpen(origin,continueTooltip){
+            closeAllBoxes();
+            if(origin && origin[0]){
+                origin.addClass('info-close');
+            }
+            continueTooltip();
+       
+
+            $('#r3c1-info').tooltipster({
+                autoClose: autoClose,
+                onlyOne: true,
+                functionBefore: handleTooltipOpen,
+                functionAfter: handleTooltipClose,
+                trigger: 'click',
+                position: 'top',
+                minWidth: '258',
+                minHeight: '180',
+                contentAsHTML: true,
+                interactive: true,
+                content: '<p style="font:Arial"><span class="tip-title">PROYECTO</span><br/> \
+                    <img src="assets/images/white.jpg" width="180px" height="1px"/> \
+                    <br/> \
+                    <br/> \
+                    8 Total Projects: 144 MW<br/> \
+                    2 In Construction & Advanced Development: 75 MW<br/> \
+                    6 In Operation: 69 MW<br/> \
+                    <br/> \
+                    </p>'
+            }).on('click', function () {
+                var tI = $('#r3c1-info').data()[$('#r3c1-info').data().tooltipsterNs[0].split('-').join('')];
+                if (tI && tI.status() === 'shown') {
+                    tI.hide();
+                }
+            });
+        }
+
+        var rotationStarted = false;
+        function startRotation(){
+            if(rotationStarted) return;
+            rotationStarted = true;
+            $('#bxslider1').bxSlider({
+                auto: true,
+                autoControls: false,
+                mode: 'fade',
+                speed: '1000',
+                controls: false,
+                pager: false
+            });
+
+            $('#bxslider2').bxSlider({
+                auto: true,
+                autoControls: false,
+                mode: 'fade',
+                speed: '1000',
+                controls: false,
+                pager: false,
+                autoDelay: 1000
+            });
+        }
+
+        startIntro();
+        bindClickEvents();
+        enableToolTips();
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<div id="intro-container" class="wrap">
+    <section class="rows">
+        <div class="row1"></div>
+        <div class="row3">
+            <section id="grid-section">
+                <div class="grid-row grid-row1">
+                    <div class="grid-col grid-col1">
+                        <div class="card-wrapper ready">
+                            <div class="title-card closed">
+                                <span class="box-title">ECONOM&IacuteA</span>
+                            </div>
+                            <article id="r1c1-article"><br>El proyecto de generaci&oacute;n de energ&iacute;a el&eacute;ctrica, a base de gas natural, es el primero de este tipo en Centroam&eacute;rica. Uno de los principales aportes que este traer&aacute; a El Salvador  ser&aacute; la diversificaci&oacute;n de la matriz energ&eacute;tica.</article>
+                            <nav class="toggle-plus plus-open row-plus" id="r1c1-plus">
+                        </nav></div>
+                    </div>
+                    <div class="grid-col grid-col2">
+                        <div class="img-container ready">
+                            <nav class="toggle-info row-plus tooltipstered" id="r1c2-info">
+                        </nav></div>
+                    </div>
+                    <div class="grid-col grid-col3">
+                        <div class="card-wrapper ready">
+                            <div class="title-card closed">
+                                <span class="box-title">TRABAJO</span>
+                            </div>
+                            <article id="r1c3-article"><br>Durante la construcci&oacute;n del proyecto se generar&aacute;n m&aacute;s de 1,000 empleos y una vez la planta generadora inicie operaciones se crear&aacute;n  m&aacute;s de 60 empleos fijos. 
+</article>
+                            <nav class="toggle-plus plus-open row-plus plus-close" id="r1c3-plus">
+                        </nav></div>
+                    </div>
+                    <div class="grid-col grid-col4" id="man">
+                        <div class="img-container ready">
+                            <div class="bx-wrapper" style="max-width: 100%; margin: 0px auto;"><div class="bx-viewport" style="width: 100%; overflow: hidden; position: relative; height: 162px;"><div class="rotator" style="width: auto; position: relative;">
+                                <div style="float: none; list-style: none; position: absolute; width: 162px; z-index: 50; display: block;"><img src="images/image2.jpg"></div>
+                               
+                                
+                            </div></div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid-row grid-row2">
+                    <div class="grid-col grid-col1">
+                        <div class="img-container ready">
+                            <div class="bx-wrapper" style="max-width: 100%; margin: 0px auto;"><div class="bx-viewport" style="width: 100%; overflow: hidden; position: relative; height: 162px;"><div class="rotator" style="width: auto; position: relative;">
+                                <div style="float: none; list-style: none; position: absolute; width: 162px; z-index: 50; display: block;"><img src="images/image3.jpg"></div>
+                               
+                                
+                            </div></div></div>
+                        </div>
+                    </div>
+                    <div class="grid-col grid-col2">
+                        <div class="box-title-prime-container">
+                            <span class="box-title prime">ENERG&IacuteA LIMPIA PARA NUESTRO FUTURO</span>
+                        </div>
+                        <article id="r2c2-article" style="display:none">
+                        <br>
+                                     <p>Energ&iacute;a del Pac&iacute;fico, Ltda. de C.V. utilizar&aacute; tecnolog&iacute;a eficiente  para reducir el impacto ambiental. Cada megavatio de energ&iacute;a generado a base de gas natural produce casi 45% menos de di&oacute;xido de carbono con respecto a otros combustibles.</p>
+                           <!--<a class="rarrow-link" href="index.html" target="_parent">LEER MAS→</a>-->
+                        </article>
+
+                        <nav class="toggle-plus plus-open row-plus" id="r2c2-plus">
+                    </nav></div>
+                    <div class="grid-col grid-col3">
+                        <div class="img-container ready">
+                            <nav class="toggle-info row-plus tooltipstered" id="r2c3-info">
+                        </nav></div>
+                    </div>
+                </div>
+                <div class="grid-row grid-row3">
+                    <div class="grid-col grid-col1" id="r3c1">
+                        <div class="img-container ready">
+                            <nav class="toggle-info row-plus tooltipstered" id="r3c1-info">
+                        </nav></div>
+                    </div>
+                    <div class="grid-col grid-col2" id="r3c2">
+                        <div class="card-wrapper ready">
+                            <div class="title-card closed">
+                                <span class="box-title">DESARROLLO</span>
+                            </div>
+                            <article id="r3c2-article"><br>La introducci&oacute;n del gas natural como combustible permitir&aacute;, a futuro, utilizar el mismo 
+                            para el beneficio de otros sectores como la industria. </article>
+                            <nav class="toggle-plus plus-open row-plus" id="r3c2-plus">
+                        </nav></div>
+                    </div>
+                    <div class="grid-col grid-col3">
+                        <div class="img-container ready">
+                            <nav class="toggle-info row-plus tooltipstered" id="r3c3-info">
+                        </nav></div>
+                    </div>
+                    <div class="grid-col grid-col4" id="r3c4">
+                        <div class="card-wrapper ready">
+                            <div class="title-card closed">
+                                <span class="box-title">COMUNIDAD</span>
+                            </div>
+                            <article id="r3c4-article"><br>Energ&iacute;a del Pac&iacute;fico, Ltda. de C.V. est&aacute; comprometida con el desarrollo econ&oacute;mico y social del municipio de Acajutla.</article>
+                            <nav class="toggle-plus plus-open row-plus" id="r3c4-plus">
+                        </nav></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+
+
+
+        <div class="bottom"></div>
+        <div id="intro-wrap" style="display: run;">
+            <section id="intro">
+                <div id="intro-image">
+                    <div id="intro-col1" style="display:run;">
+                        <img src="images/green-boat-1.jpg" width="326" height="491">
+                    </div>
+                    <div id="intro-col2" style="display: run;">
+                        <img src="images/green-boat-2.jpg" width="328" height="491">
+                    </div>
+                    <div id="intro-col3" style="display: run;">
+                        <img src="images/green-boat-3.jpg" width="326" height="491">
+                    </div>
+                </div>
+                <div id="intro-skip"><img src="images/skip.png"></div>
+                <div id="intro-title-container-container" style="display:run;">
+                    <div id="intro-title-container">
+                        <span class="box-title prime">ENERG&Iacute;A LIMPIA PARA NUESTRO FUTURO</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div class="row4"></div>
+    </section>
+</div>
+
+</body></html>
